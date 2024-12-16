@@ -1,6 +1,7 @@
 import { toast } from "sonner";
 
 export const addAppointment = async (
+  pname: string,
   pid: string,
   apponum: number,
   scheduleid: number,
@@ -14,6 +15,7 @@ export const addAppointment = async (
       headers: { "Content-Type": "application/json" },
       credentials: "include",
       body: JSON.stringify({
+        pname,
         pid,
         apponum,
         scheduleid,
@@ -24,7 +26,7 @@ export const addAppointment = async (
     if (!response.ok) {
       toast.error(`Error: ${response.statusText}`);
       return
-    }
+    }    
 
     toast.success(`Booking completed`);
     window.location.href = "http://localhost:3000/patient/my-bookings"

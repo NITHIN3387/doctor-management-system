@@ -86,6 +86,7 @@ export function ScheduleCard({
                 <Button
                   onClick={() =>
                     addAppointment(
+                      authUser!.name,
                       authUser!.email,
                       appointmentCount + 1,
                       id,

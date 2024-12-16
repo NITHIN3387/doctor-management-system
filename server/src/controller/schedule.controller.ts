@@ -73,7 +73,7 @@ export const getAllSchedulesByDoctorId: RequestHandler = async (req, res) => {
   });
 };
 
-const addSchedule: RequestHandler = async (req, res) => {
+const addSchedule: RequestHandler = (req, res) => {
   const { title, docid, nop, scheduleDate, scheduleTime } = req.body;
 
   const query = `
@@ -81,7 +81,7 @@ const addSchedule: RequestHandler = async (req, res) => {
       NULL, '${docid}', '${title}', '${scheduleDate}', '${scheduleTime}', ${nop}
     )`;
 
-  db.query(query, (error, result) => {
+  db.query(query, async (error, result) => {
     if (error) {
       if (error.sqlMessage?.startsWith("Duplicate entry")) {
         res.status(409).send("You have already added this doctor");

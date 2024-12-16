@@ -16,6 +16,8 @@ export const deleteAppointment = async (
       return
     }
 
+    console.log(await response.json());
+
     toast.success(`Booking canceled`);
     window.location.href = "http://localhost:3000/patient/my-bookings"
   } catch (error) {
