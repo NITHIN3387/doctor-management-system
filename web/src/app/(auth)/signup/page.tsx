@@ -1,15 +1,15 @@
 import { SignupForm } from "@/components/forms/signup-form";
 import Image from "next/image";
 import Link from "next/link";
-import loginBg from "@/assets/images/login-bg.jpeg";
+import signupBg from "@/assets/images/signup-bg.jpeg";
 
 const Page = (): JSX.Element => {
   return (
     <div className="space-y-8 px-6">
       <Image
-        alt="login-bg"
+        alt="signup-bg"
         className="-z-10"
-        src={loginBg}
+        src={signupBg}
         layout="fill"
         objectFit="conver"
       />
