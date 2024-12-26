@@ -15,14 +15,16 @@ const getAllSchedules: RequestHandler = async (req, res) => {
       d.email, 
       d.mobileNumber, 
       COALESCE(a.appointment_count, 0) AS appointment_count
-      FROM schedule s
-      JOIN doctor d ON s.docid = d.email
-      LEFT JOIN (
-          SELECT scheduleid, COUNT(*) AS appointment_count
-          FROM appointment
-          GROUP BY scheduleid
-      ) a ON s.scheduleid = a.scheduleid
-      WHERE COALESCE(a.appointment_count, 0) < s.nop;
+    FROM schedule s
+    JOIN doctor d ON s.docid = d.email
+    LEFT JOIN (
+        SELECT scheduleid, COUNT(*) AS appointment_count
+        FROM appointment
+        GROUP BY scheduleid
+    ) a ON s.scheduleid = a.scheduleid
+    WHERE 
+      s.scheduledate > CURDATE() AND 
+      COALESCE(a.appointment_count, 0) < s.nop;
   `;
 
   db.query(query, (error, result) => {
@@ -52,15 +54,18 @@ export const getAllSchedulesByDoctorId: RequestHandler = async (req, res) => {
       d.email, 
       d.mobileNumber, 
       COALESCE(a.appointment_count, 0) AS appointment_count
-      FROM schedule s
-      JOIN doctor d ON s.docid = d.email
-      LEFT JOIN (
-          SELECT scheduleid, COUNT(*) AS appointment_count
-          FROM appointment
-          GROUP BY scheduleid
-      ) a ON s.scheduleid = a.scheduleid
-      WHERE COALESCE(a.appointment_count, 0) < s.nop AND s.docid = '${id}';
-  `;  
+    FROM schedule s
+    JOIN doctor d ON s.docid = d.email
+    LEFT JOIN (
+        SELECT scheduleid, COUNT(*) AS appointment_count
+        FROM appointment
+        GROUP BY scheduleid
+    ) a ON s.scheduleid = a.scheduleid
+    WHERE 
+      s.scheduledate > CURDATE() AND 
+      COALESCE(a.appointment_count, 0) < s.nop AND 
+      s.docid = '${id}';
+  `;
 
   db.query(query, (error, result) => {
     if (error) {

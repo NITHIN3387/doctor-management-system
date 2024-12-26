@@ -34,7 +34,7 @@ const Page = (): JSX.Element => {
 
   return (
     <div className="grid grid-cols-3 gap-4">
-      {schedules.map(
+      {schedules.length ? schedules.map(
         ({ title, name, scheduledate, scheduletime, scheduleid, email, appointment_count }) => (
           <ScheduleCard
             key={scheduleid}
@@ -47,7 +47,7 @@ const Page = (): JSX.Element => {
             appointmentCount={appointment_count}
           />
         )
-      )}
+      ) : <h3 className="text-center text-xl col-span-3">No schedules are there to display</h3>}
     </div>
   );
 };
